@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 
 
 [Authorize]
-[Route("{controller}")]
+[Route("[controller]")]
 public class GroupController : Controller
 {
 
