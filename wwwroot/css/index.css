@@ -1,0 +1,275 @@
+body {
+    font: 100% 'Roboto', arial, sans-serif;
+    background-color: #f1f1f1;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+}
+
+
+textarea {
+    background-color: rgb(248, 248, 248);
+    border: solid 1px rgba(165, 152, 152, 0.493);
+    border-radius: 3px;
+    padding: 20px 20px 20px 20px;
+    left: 100px;
+    resize: none;
+    font-size: 1rem;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #eee;
+    border-left: 0;
+    border-radius: 3px;
+    -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+
+.main {
+    margin-left: 200px;
+    margin-right: 500px;
+    min-width: 800px;
+    padding: 30px 10px 0px 20px;
+}
+
+
+
+
+.sidenav {
+    width: 200px;
+    height: 50%;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    overflow-x: hidden;
+    padding: 2px;
+    margin-top: 30px;
+    
+}
+
+
+.sidenav a {
+    display: block;
+    padding: 5px 5px 5px 15px;
+    text-align: left;
+    color: black;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    margin: 1px;
+    box-shadow: 0 15px 35px inherit, 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+
+.sidenav a:hover {
+    background-color: #ffab00;
+}
+
+
+.topnav {
+    position: initial;
+    top: 50px;
+    background: #ffab00;
+    border-radius: 4px;
+    padding: 10px 10px 10px 100px;
+    min-width: 1000px;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+
+.topnav a {
+    color: #fff;
+    margin: 0px 150px 0px 30px;
+}
+
+.topnav input {
+    margin-right: 400px;
+    padding: .3rem .5rem;
+    font-size: 1rem;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #eee;
+    border-left: 0;
+    border-radius: 3px;
+    -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.topnav button {
+    color: black;
+    padding: 0px 30px 0px 30px;
+    background: 0;
+    border: 0;
+    outline: none;
+}
+
+
+.dropdown {
+    position: absolute;
+    outline: none;
+    left: 794px;
+    orientation: vertical;
+}
+
+
+.new-post-field {
+    width: 100%;
+    vertical-align: middle;
+}
+
+
+.new-post-field button{
+    position: relative;
+    padding: .75rem 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    vertical-align: middle;
+    white-space: nowrap;
+    background-color: #ffab00;
+    border: 1px solid transparent;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+    top: -60px;
+    left: 30px;
+    height: 80px;
+}
+
+.new-post-field textarea {
+    min-width: 500px;
+    height: 100px;
+    margin: 50px 5px 0px 120px;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+
+
+.post {
+    margin: 5px 5px 30px 5px;
+    background-color: rgb(248, 248, 248);
+    border: solid 1px rgba(165, 152, 152, 0.493);
+    border-radius: 3px;
+    padding: 0px 20px 20px 20px;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+
+}
+
+
+.post button {
+    border-radius: 50%;
+    border: 0;
+    background-color: inherit;
+
+}
+
+.post button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.post a {
+    color: #ffab00;
+}
+
+
+.post textarea {
+    position: relative;
+    height: 35px;
+    width: 80%;
+    left: 50px;
+}
+
+
+.post hr {
+    color: #f1f1f1;
+}
+
+
+.sidenav a:active {
+    color: #ffab00;
+}
+
+
+.likeButton {
+    outline: none;
+}
+
+
+#modal-window {
+    display: none;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+    text-align: center;
+}
+
+
+.comment-field {
+    background: #c4bc5241;
+    padding: 10px;
+    border-radius: 12px;
+    position: relative;
+    left: 58px;
+    font-size: 14px;
+    display: inline-block;
+    margin: 5px;
+    max-width: 75%;
+}
+
+
+.comment-field a {
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+
+.friend-list, .user-info {
+    font-size: 20px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 20px 0px 0px 300px;
+}
+
+
+.friend-list a, .user-info a {
+    color: #ffab00;
+    margin-right: 10px;
+}
+
+
+.friend-list label {
+    margin-left: 5px;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/login.css">
+        <script src="js/login.js"></script>
+    </head>
+    <body>
+        <form id="loginForm" class="loginForm" action="#">
+            <fieldset class="loginFormGroup">
+                <input id="loginFormUsername" placeholder="Nazwa użytkownika" class="form-input" name="username" type="text" required />
+            </fieldset>
+            <fieldset class="loginFormGroup">
+                <input id="loginFormPassword" placeholder="Hasło" class="form-input" name="password" type="password" required />
+            </fieldset>
+            <div class='loginFormGroup'>
+                <input id='loginFormButton' class='btn' type='button' placeholder='Zatwierdź' value="Zaloguj się" onclick="loginSubmit()"/>
+            </div>
+
+        </form>
+
+
+        <form id="registerForm" class="register-form" action="#">
+            <h1>Rejestracja</h1>
+            <fieldset class="formGroup">
+                <label id="registerFormUsernameLabel" >Nazwa użytkownika</label>
+                <input id="registerFormUsername" class="form-input" name="username" type="text" required onchange="" />
+            </fieldset>
+            <fieldset class="formGroup">
+                <label >Imie</label>
+                <input id="formFirstName" class="form-input" name="firstname" type="text" required onchange="" />
+            </fieldset>
+            <fieldset class="formGroup">
+                <label>Nazwisko</label>
+                <input id="formLastName" class="form-input" name="lastname" type="text" required onchange="" />
+            </fieldset>
+            <fieldset class="formGroup">
+                <label>E-mail</label>
+                <input id="formEmail" class="form-input" name="email" type="email" required onchange="" />
+            </fieldset>
+            <fieldset class="formGroup">
+                <label>Hasło</label>
+                <input id="registerFormPassword" class="form-input" name="password" type="password" required onchange="" />
+            </fieldset>
+            <div class='form-group'>
+                <input id='formButton' class='btn' type='button' value="Zatwierdź" onclick="registerSubmit()"/>
+            </div>
+            <div id="error" style="color:red;"></div>
+        </form>
+    </body>
+
+</html>
