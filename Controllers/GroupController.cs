@@ -38,8 +38,8 @@ public class GroupController : Controller
     [HttpGet("get/{username}")]
     public IActionResult UsersGroups(string username)
     {
-        string queryString = $"SELECT * FROM grupy_uzytkownika({username});";
-            User user = null; 
+        string queryString = $"SELECT * FROM grupy_uzytkownika('{username}');";
+        List<Group> groups = new List<Group>();
             
 
             using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
@@ -49,12 +49,50 @@ public class GroupController : Controller
                 con.Open();
                 NpgsqlDataReader reader = cmd.ExecuteReader();
 
-                reader.Read();
+
+                while (reader.Read())
+                {
+                    groups.Add(new Group()
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                    });
+                }
                     
             }
 
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-            return new JsonResult(user);
+            return new JsonResult(groups);
     }
+
+
+    [HttpGet("search/{input}")]
+        public IActionResult FindGroup(string input)
+        {
+            using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
+            {
+                string queryString = $"SELECT * FROM grupy;";
+                NpgsqlCommand cmd = new NpgsqlCommand(queryString);
+                cmd.Connection = con;
+                con.Open();
+                NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                List<Group> groups = new List<Group>();
+
+                while (reader.Read())
+                {
+                    groups.Add(new Group()
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                    });
+                }
+
+
+                Response.Headers.Add("Access-Control-Allow-Origin", "*"); 
+
+                return new JsonResult(groups);
+            }
+        }
 }

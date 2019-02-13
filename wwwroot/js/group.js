@@ -6,7 +6,7 @@ function searchGroups(e)
     if (e.keyCode == 13)
     {
         e.preventDefault();
-        fetch("groups/search/" + e.target.value)
+        fetch("group/search/" + e.target.value)
             .then(response => response.json())
             .then(data => {
                 let main = document.getElementById('main');
@@ -14,13 +14,45 @@ function searchGroups(e)
                 if (data.length < 1)
                     val = "Brak wyników dla \"" + e.target.value + "\"";
                 let toRender = "<div class='friend-list'><h3>" + val + "</h3>";
-                main.innerHTML = toRender + displayUsers(data) + "</div>";
+                main.innerHTML = toRender + displayGroups(data) + "</div>";
             });
     }
     else
     {
         return false;
     }
+}
+
+
+
+function fetchGroups(e = null)
+{
+    let username = e == null ? getCookie('username') : e.target.getAttribute('username');
+    let main = document.getElementById('main');
+    fetch("group/get/" + username)
+        .then(response => response.json())
+        .then(data => {
+            let toRender = "";
+            for (let l = 0; l < data.length; ++l)
+            {
+                toRender += "<p>" + data[l].name + "</p>";
+            }
+
+            main.innerHTML = toRender;
+        });
+}
+
+
+
+function displayGroups(groups)
+{
+    let toRender = "";
+    for (let w = 0; w < groups.length; ++w)
+    {
+        toRender += "<a groupname='" + groups[w].name + "' class='groupInfoLink' href='#'>" + groups[w].name + "</a><label>";
+    }
+    
+    return toRender;
 }
 
 
