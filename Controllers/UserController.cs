@@ -21,37 +21,23 @@ namespace app.Controllers
     public class UserController : ControllerBase
     {
         private IConfiguration _configuration;
+        private IUserService _userService;
         private string _connectionString;
 
-        public UserController(IConfiguration configuration)
+        public UserController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("localhost");
+            _userService = userService;
+            _connectionString = _configuration.GetConnectionString("azure");
+            _userService.ConnectionString = _connectionString;
         }
 
         [HttpGet]
         [Route("all")]
         public ActionResult<IEnumerable<string>> Get()
         {
-            string queryString = "SELECT * FROM uzytkownicy;";
-            List<User> users = new List<User>();
-
-            using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
-            {
-                NpgsqlCommand cmd = new NpgsqlCommand(queryString);
-                cmd.Connection = con;
-                con.Open();
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    User user = new User(reader);
-                    users.Add(user);
-                }
-            }
-            
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            
+            List<User> users = _userService.GetAll();
+                        
             return new JsonResult(users);
         }
 

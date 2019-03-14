@@ -21,36 +21,19 @@ class Post {
             toRender += "<br><br><div class='comment-field'> <a username='" + this.comments[k].username + "' class='userInfoLink' href='#'>" + this.comments[k].username + "</a>" + this.comments[k].text;
             toRender += "<br><div style='font-size:12px'>" + this.comments[k].datePublished.replace('T', ' ').substring(0, 19) + "</div></div>";
         }
-        // }
-        toRender += "</div>"
 
-        console.log(this.comments);
+        toRender += "</div>";
 
         return toRender;
     }
 }
 
 
-class Comment {
-    constructor(data) {
-        this.data = data;
-    }
-
-    render() {
-        let toRender = "<div class='comment'><p style='font-size: 18px;'>" + this.data.username + "</p></div>";
-
-        return toRender;
-    }
-}
-
-
-
-
-
-
+/////////////////////////////////////////////////
 let maxAmmountOfPosts = 30;
 let likeButtons = [];
-
+let posts;
+/////////////////////////////////////////////////
 
 
 
@@ -103,13 +86,12 @@ function sendNewPost()
                 fetchPosts();
             }
             else
-                console.log("Dodawanie wpisu nie powiodlo sie");
+                alert("Dodawanie wpisu nie powiodlo sie");
 
         })
 }
 
 
-let posts;
 
 
 
@@ -133,9 +115,7 @@ async function fetchPosts(username)
         main.innerHTML += posts[i].render();
     }
 
-    initializePosts();
-
-
+    setEventListeners();
 }
 
 
@@ -153,8 +133,6 @@ function sendNewComment(e)
             postid: e.target.parentElement.getAttribute('postid')
         }
 
-        // console.log(data);
-
         fetch('/user/newcomment', {
             method: "POST",
             body: JSON.stringify(data),
@@ -170,7 +148,7 @@ function sendNewComment(e)
             }
             else
             {
-                console.log("Nie udało się wysłać komentarza");
+                alert("Nie udało się wysłać komentarza");
             }
         });
     }
@@ -208,12 +186,6 @@ function fetchLikingUsers(e)
 
 
 
-
-
-
-
-
-
 function fetchFriends()
 {
     fetch("user/friends/" + getCookie('username'))
@@ -222,7 +194,7 @@ function fetchFriends()
             let main = document.getElementById('main');
             let toRender = "<div class='friend-list'><h3>Znajomi:</h3>";
             main.innerHTML = toRender + displayUsers(data) + "</div>";
-            initializePosts();
+            setEventListeners();
         });
 }
 
@@ -261,7 +233,7 @@ function searchUsers(e)
                 let toRender = "<div class='friend-list'><h3>" + val + "</h3>";
                 main.innerHTML = toRender + displayUsers(data) + "</div>";
                 
-                initializePosts();
+                setEventListeners();
             });
     }
     else
@@ -311,7 +283,7 @@ function addFriend(e)
     })
     .then(response => {
         if (!response.ok)
-            console.log("Nie udało się")
+            alert("Nie udało się dodać znajomego!");
     });
 }
 
@@ -336,7 +308,7 @@ function getCookie(cname) {
 
 
 
-function initializePosts()
+function setEventListeners()
 {
     likeButtons = document.getElementsByClassName('likeButton');
     for (i = 0; i < likeButtons.length; ++i)
@@ -349,7 +321,6 @@ function initializePosts()
     let likesCounterButtons = document.getElementsByClassName('likesCounterButton');
     for (i = 0; i < likesCounterButtons.length; ++i)
     {
-        // console.log(i);
         likesCounterButtons[i].addEventListener('click', fetchLikingUsers);
     }
 
@@ -382,9 +353,6 @@ async function onLoad()
     }
 
     document.getElementById('search-bar').addEventListener('keydown', searchUsers);
-
-
-    // console.log(posts);
 }
 
 

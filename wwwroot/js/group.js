@@ -1,4 +1,6 @@
-
+/////////////////////////////////////
+// Please, don't look at this file //
+/////////////////////////////////////
 
 
 function searchGroups(e)
@@ -92,9 +94,6 @@ async function onLoad()
 
     // console.log(posts);
 }
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', onLoad);
