@@ -47,24 +47,8 @@ namespace app.Controllers
         [Route("get/{username}")]
         public IActionResult GetUser(string username)
         {
-            string queryString = $"SELECT * FROM uzytkownicy WHERE nazwa_uzytkownika = '{username}';";
-            User user = null; 
-            
-
-            using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
-            {
-                NpgsqlCommand cmd = new NpgsqlCommand(queryString);
-                cmd.Connection = con;
-                con.Open();
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                reader.Read();
-                if (reader.HasRows)
-                    user = new User(reader);
-            }
-
+            User user = _userService.GetUser(username);
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
-
             return new JsonResult(user);
         }
 
@@ -73,37 +57,33 @@ namespace app.Controllers
         [AllowAnonymous]
         public IActionResult Register([FromBody] User user)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
+            if (!_userService.IsUserRegistered(user.Username))
             {
-                string queryString = $"SELECT * FROM uzytkownicy WHERE nazwa_uzytkownika = '{user.Username}';";
-                NpgsqlCommand cmd = new NpgsqlCommand(queryString);
-                cmd.Connection = con;
-                con.Open();
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                reader.Read();
-                if (reader.HasRows)
-                {
-                    return StatusCode(500);
-                }
+                return StatusCode(500);
             }
-            
-            
-            using (NpgsqlConnection con = new NpgsqlConnection(_connectionString))
-            {
-                PasswordHasher<User> ph = new PasswordHasher<User>();
 
-                string queryString = $"INSERT INTO uzytkownicy(nazwa_uzytkownika, imie, nazwisko, haslo_hash) VALUES ('{user.Username}', '{user.FirstName}', '{user.LastName}', '{ph.HashPassword(user, user.Password)}');";
-                NpgsqlCommand cmd = new NpgsqlCommand(queryString);
-                cmd.Connection = con;
-                con.Open();
-                cmd.ExecuteNonQuery();
-            }
+            _userService.RegisterUser(user);
 
             Response.Headers.Add("Access-Control-Allow-Origin", "*");            
 
             return new JsonResult(user);
         }
+
+
+
+
+
+
+
+        ///////////////////////////////////////////////////////
+        // The rest not refactored yet                       //
+        // And should be create another controller for Posts //
+        ///////////////////////////////////////////////////////
+
+
+
+
+
 
 
         [HttpPost]
@@ -142,7 +122,7 @@ namespace app.Controllers
             {
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Email, "placeholder"),
-                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(ClaimTypes.Role, "User"),
                 new Claim(ClaimTypes.Surname, user.LastName),
                 new Claim("FirstName", user.FirstName)
             };

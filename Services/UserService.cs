@@ -4,12 +4,14 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
+
 
 
 public class UserService : IUserService
 {
     public string ConnectionString {get; set;}
-    private NpgsqlConnection con;
+    private NpgsqlConnection _Con;
     private void ExecuteNonQuery(string query)
     {
         using (NpgsqlConnection con = new NpgsqlConnection(ConnectionString))
@@ -26,11 +28,11 @@ public class UserService : IUserService
     {
         NpgsqlDataReader reader;
 
-        con = new NpgsqlConnection(ConnectionString);
-            NpgsqlCommand cmd = new NpgsqlCommand(query);
-            cmd.Connection = con;
-            con.Open();
-            reader = cmd.ExecuteReader();
+        _Con = new NpgsqlConnection(ConnectionString);
+        NpgsqlCommand cmd = new NpgsqlCommand(query);
+        cmd.Connection = _Con;
+        _Con.Open();
+        reader = cmd.ExecuteReader();
             
 
         return reader;
@@ -58,10 +60,54 @@ public class UserService : IUserService
         }
         finally
         {
-            con.Close();
+            _Con.Close();
         }
 
         return users;
+    }
+
+
+    public User GetUser(string username)
+    {
+        User user = null;
+        try
+        {
+            string queryString = $"SELECT * FROM uzytkownicy WHERE nazwa_uzytkownika = '{username}';";
+            NpgsqlDataReader reader = ExecuteReader(queryString);
+            reader.Read();
+            if (reader.HasRows)
+                user = new User(reader);
+        }
+        catch(Exception)
+        {
+
+        }
+        finally
+        {
+            _Con.Close();
+        }
+
+        return user;
+    }
+
+
+    public bool IsUserRegistered(string username)
+    {
+        User user = GetUser(username);
+        bool canRegister = false;
+
+        if (user == null)
+            canRegister = true;
+
+        return canRegister;
+    }
+
+
+    public void RegisterUser(User user)
+    {
+        PasswordHasher<User> ph = new PasswordHasher<User>();
+        string queryString = $"INSERT INTO uzytkownicy(nazwa_uzytkownika, imie, nazwisko, haslo_hash) VALUES ('{user.Username}', '{user.FirstName}', '{user.LastName}', '{ph.HashPassword(user, user.Password)}');";
+        ExecuteNonQuery(queryString);
     }
 
 }
